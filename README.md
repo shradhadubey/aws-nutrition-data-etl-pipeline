@@ -27,3 +27,6 @@ The pipeline follows a "Medallion Architecture" (Bronze/Silver):
 ├── src/                     # Source Code
 │   ├── lambda_ingest.py     # API to S3 Bronze Ingestion
 │   └── glue_transform.py    # Python Shell ETL (CSV to Parquet)
+├── orchestration/           # Workflow
+│   └── state_machine.json   # AWS Step Functions ASL definition
+└── README.md                # Project Documentation
