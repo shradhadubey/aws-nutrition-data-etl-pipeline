@@ -4,7 +4,7 @@
   "States": {
     "IngestData": {
       "Type": "Task",
-      "Resource": "arn:aws:lambda:ap-southeast-2:{YOUR-ACCOUNT_ID}:function:cdc-ingestion",
+      "Resource": "arn:aws:lambda:ap-southeast-2:{YOUR-ACCOUNT_ID}:function:cdc-ingestion-v2",
       "Comment": "Calls the Python Lambda to fetch CDC data",
       "Next": "RunGlueETL"
     },
