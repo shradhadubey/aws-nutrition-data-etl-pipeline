@@ -88,10 +88,15 @@ Create an IAM Role named `CDC-Glue-Role` with **Glue** as the trusted entity. At
 
 ```text
 
-├── src/                     # Source Code
-│   ├── lambda_ingest.py     # API to S3 Bronze Ingestion
-│   └── glue_transform.py    # Python Shell ETL (CSV to Parquet)
-├── orchestration/           # Workflow
-│   └── state_machine.json   # AWS Step Functions ASL definition
-└── README.md                # Project Documentation
+cdc-nutrition-pipeline/
+├── lambda/
+│   └── lambda_ingest.py        
+├── glue/
+│   └── cdc-nutrition-transform-job.py        
+├── iam/
+│   ├── glue_trust_policy.json  # Who can use this role
+│   └── master_policy.json      # What the role can actually do
+├── step_functions/
+│   └── definition.asl.json    
+└── README.md              # Project Documentation
 ```
