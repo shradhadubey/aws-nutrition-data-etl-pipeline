@@ -1,0 +1,23 @@
+{
+  "Comment": "CDC Nutrition Data Pipeline - Ingestion and ETL",
+  "StartAt": "IngestData",
+  "States": {
+    "IngestData": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:ap-southeast-2:{YOUR-ACCOUNT_ID}:function:cdc-ingestion",
+      "Comment": "Calls the Python Lambda to fetch CDC data",
+      "Next": "RunGlueETL"
+    },
+    "RunGlueETL": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::glue:startJobRun.sync",
+      "Parameters": {
+        "JobName": "cdc-nutrition-transform-job",
+        "Arguments": {
+          "--s3_input_path.$": "$.s3_path"
+        }
+      },
+      "End": true
+    }
+  }
+}
