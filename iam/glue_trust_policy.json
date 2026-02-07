@@ -1,0 +1,36 @@
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Sid": "AllowGlueToReadScripts",
+			"Effect": "Allow",
+			"Action": [
+				"s3:GetObject",
+				"s3:ListBucket"
+			],
+			"Resource": [
+				"arn:aws:s3:::aws-glue-assets-{your-account-number}-ap-southeast-2",
+				"arn:aws:s3:::aws-glue-assets-{your-account-number}-ap-southeast-2/*"
+			]
+		},
+		{
+			"Sid": "AllowGlueCatalogManagement",
+			"Effect": "Allow",
+			"Action": [
+				"glue:CreateTable",
+				"glue:UpdateTable",
+				"glue:GetTable",
+				"glue:GetTables",
+				"glue:GetDatabase",
+				"glue:GetDatabases",
+				"glue:BatchCreatePartition",
+				"glue:CreatePartition"
+			],
+			"Resource": [
+				"arn:aws:glue:ap-southeast-2:{your-account-number}:catalog",
+				"arn:aws:glue:ap-southeast-2:{your-account-number}:database/cdc_nutrition_db",
+				"arn:aws:glue:ap-southeast-2:{your-account-number}:table/cdc_nutrition_db/*"
+			]
+		}
+	]
+}

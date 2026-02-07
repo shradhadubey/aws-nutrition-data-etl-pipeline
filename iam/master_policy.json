@@ -1,0 +1,56 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "S3Access",
+            "Effect": "Allow",
+            "Action": [
+                "s3:PutObject",
+                "s3:GetObject",
+                "s3:ListBucket",
+                "s3:DeleteObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::cdc-nutrition-raw-bronze",
+                "arn:aws:s3:::cdc-nutrition-raw-bronze/*",
+                "arn:aws:s3:::cdc-nutrition-transformed-silver",
+                "arn:aws:s3:::cdc-nutrition-transformed-silver/*"
+            ]
+        },
+        {
+            "Sid": "GlueAndCatalogAccess",
+            "Effect": "Allow",
+            "Action": [
+                "glue:StartJobRun",
+                "glue:GetJobRun",
+                "glue:StartCrawler",
+                "glue:GetCrawler",
+                "glue:GetTable",
+                "glue:GetDatabase",
+                "glue:CreatePartition",
+                "glue:BatchCreatePartition"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "AthenaAccess",
+            "Effect": "Allow",
+            "Action": [
+                "athena:StartQueryExecution",
+                "athena:GetQueryExecution",
+                "athena:GetQueryResults"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "Logging",
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": "arn:aws:logs:*:*:*"
+        }
+    ]
+}
