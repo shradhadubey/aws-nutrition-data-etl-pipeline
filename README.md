@@ -1,6 +1,6 @@
 # CDC Nutrition & Obesity Behavioral Risk Factor Pipeline
 
-## 🚀 Project Overview
+## Project Overview
 This project implements a budget-optimized, automated data engineering pipeline on AWS to process and analyze the **CDC’s Nutrition, Physical Activity, and Obesity** dataset. An automated, serverless data pipeline that ingests CDC nutrition data, transforms it from CSV to Parquet, and catalogs it for high-performance SQL analytics using AWS.  The architecture is designed to stay entirely within the **AWS Free Tier** and **Snowflake Free Trial** limits while maintaining professional data engineering standards.
 
 
@@ -47,7 +47,7 @@ Create an IAM Role named `CDC-Glue-Role` with **Glue** as the trusted entity. At
 
 ---
 
-## ✅ Verification Checklist
+## Verification Checklist
 
 - [ ] **Lambda:** Check `bronze` bucket for new `.csv` file.
 - [ ] **Glue Job:** Verify `Succeeded` status and check `silver` bucket for `.parquet` files.
