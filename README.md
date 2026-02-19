@@ -3,7 +3,7 @@
 ## Project Overview
 This project implements a budget-optimized, automated data engineering pipeline on AWS to process and analyze the **CDC’s Nutrition, Physical Activity, and Obesity** dataset. An automated, serverless data pipeline that ingests CDC nutrition data, transforms it from CSV to Parquet, and catalogs it for high-performance SQL analytics using AWS.  The architecture is designed to stay entirely within the **AWS Free Tier** and **Snowflake Free Trial** limits while maintaining professional data engineering standards.
 ---
-![Serverless CDC Data Pipeline](./assets/pipeline_sketch.png)
+![Serverless CDC Data Pipeline](./assets/pipeline-sketch.png)
 
 ##  Architecture Overview
 This project implements a **Medallion Data Lake** architecture to refine raw data into analytics-ready assets:
