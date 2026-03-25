@@ -22,7 +22,6 @@ import logging
 from datetime import datetime
 from typing import Dict, List, Tuple
 
-from awsglue.transforms import ApplyMapping
 from awsglue.utils import getResolvedOptions
 from pyspark.context import SparkContext
 from pyspark.sql import SparkSession, DataFrame
