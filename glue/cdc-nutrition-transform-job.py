@@ -173,7 +173,7 @@ class DimensionalModelTransformer:
             .withColumnRenamed("locationdesc", "location_name") \
             .withColumn("location_key", md5(col("location_name"))) \
             .withColumn("region", when(col("location_name").isin(
-                ["Connecticut", "Maine", "Massachusetts", "New Hampshire", "Rhode Island", "Vermont"
+                ["Connecticut", "Maine", "Massachusetts", "New Hampshire", "Rhode Island", "Vermont"]
             ), "Northeast").otherwise("Other")) \
             .select("location_key", "location_name", "region")
         
@@ -237,7 +237,7 @@ class DimensionalModelTransformer:
         return fact
 
 
-class PySpark Optimizer:
+class PySparkOptimizer:
     """Configuration for PySpark query optimization"""
     
     @staticmethod
@@ -267,7 +267,7 @@ def main():
     job.init(args['JOB_NAME'], args)
     
     # Apply optimizations
-    PySpark Optimizer.configure_spark(spark)
+    PySparkOptimizer.configure_spark(spark)
     
     logger.info(f"🚀 Job started: {args['JOB_NAME']} at {datetime.now().isoformat()}")
     
