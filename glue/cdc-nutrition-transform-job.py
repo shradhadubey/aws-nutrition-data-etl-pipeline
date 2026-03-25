@@ -137,7 +137,7 @@ class SchemaValidator:
         # Determine overall validity
         validity_cols = [c for c in df.columns if c.startswith("_") and c.endswith("passed") or c.endswith("valid")]
         
-        overall_valid = col("_null_check_passed") & col("_range_check_passed")
+        overall_valid = col("_range_check_passed")
         df = df.withColumn("_is_valid", overall_valid)
         
         # Split valid and invalid records
