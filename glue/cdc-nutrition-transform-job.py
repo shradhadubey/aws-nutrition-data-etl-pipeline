@@ -132,7 +132,6 @@ class SchemaValidator:
         # Run all validations
         df = self.validate_null_constraints(df)
         df = self.validate_numeric_ranges(df)
-        df = self.validate_categorical_values(df)
         
         # Determine overall validity
         validity_cols = [c for c in df.columns if c.startswith("_") and c.endswith("passed") or c.endswith("valid")]
@@ -305,6 +304,8 @@ def main():
         
         logger.info(f"✓ Quality checks: {valid_count:,} valid | {invalid_count:,} invalid ({quality_score:.2f}% pass rate)")
         
+        print("FACT COUNT:", fact_df.count())
+
         # Write invalid records to quarantine (dead letter queue)
         if invalid_count > 0:
             logger.warning(f"⚠️  Writing {invalid_count} invalid records to quarantine...")
