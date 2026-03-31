@@ -246,7 +246,7 @@ class PySparkOptimizer:
         spark.conf.set("spark.sql.shuffle.partitions", "200")
         spark.conf.set("spark.sql.parquet.compression.codec", "snappy")
         
-        logger.info("✓ Spark optimizations configured")
+        logger.info("Spark optimizations configured")
 
 
 # ============================================================================
@@ -267,13 +267,13 @@ def main():
     # Apply optimizations
     PySparkOptimizer.configure_spark(spark)
     
-    logger.info(f"🚀 Job started: {args['JOB_NAME']} at {datetime.now().isoformat()}")
+    logger.info(f"Job started: {args['JOB_NAME']} at {datetime.now().isoformat()}")
     
     try:
         # =====================================================================
         # STAGE 1: INGEST
         # =====================================================================
-        logger.info("📥 Reading raw data from Bronze layer...")
+        logger.info(" Reading raw data from Bronze layer...")
         
         raw_df = glueContext.create_dynamic_frame.from_catalog(
             database="cdc_nutrition_db",
@@ -281,12 +281,12 @@ def main():
         ).toDF()
         
         ingest_count = raw_df.count()
-        logger.info(f"✓ Ingested {ingest_count:,} records from Bronze")
+        logger.info(f"Ingested {ingest_count:,} records from Bronze")
         
         # =====================================================================
         # STAGE 2: VALIDATE & CLEANSE
         # =====================================================================
-        logger.info("🔍 Running data quality checks...")
+        logger.info(" Running data quality checks...")
         
         validator = SchemaValidator(spark)
         
@@ -302,7 +302,7 @@ def main():
         invalid_count = invalid_df.count()
         quality_score = (valid_count / ingest_count * 100) if ingest_count > 0 else 0
         
-        logger.info(f"✓ Quality checks: {valid_count:,} valid | {invalid_count:,} invalid ({quality_score:.2f}% pass rate)")
+        logger.info(f" Quality checks: {valid_count:,} valid | {invalid_count:,} invalid ({quality_score:.2f}% pass rate)")
         
         print("FACT COUNT:", fact_df.count())
 
@@ -316,7 +316,7 @@ def main():
         # =====================================================================
         # STAGE 3: STANDARDIZE & CLEAN
         # =====================================================================
-        logger.info("🧹 Standardizing column names and data types...")
+        logger.info(" Standardizing column names and data types...")
         
         clean_df = valid_df \
             .withColumn("yearstart", col("yearstart").cast(IntegerType())) \
@@ -330,12 +330,12 @@ def main():
             )
         
         clean_count = clean_df.count()
-        logger.info(f"✓ Standardized {clean_count:,} records")
+        logger.info(f" Standardized {clean_count:,} records")
         
         # =====================================================================
         # STAGE 4: TRANSFORM TO DIMENSIONAL MODEL
         # =====================================================================
-        logger.info("🔧 Building dimensional model...")
+        logger.info(" Building dimensional model...")
         
         transformer = DimensionalModelTransformer(spark)
         
@@ -358,12 +358,12 @@ def main():
         # Create fact table
         fact_df = transformer.create_fact_table(clean_df, dim_date, dim_location, dim_metric)
         fact_count = fact_df.count()
-        logger.info(f"✓ Fact table created with {fact_count:,} records")
+        logger.info(f" Fact table created with {fact_count:,} records")
         
         # =====================================================================
         # STAGE 5: WRITE TO SILVER LAYER (PARQUET)
         # =====================================================================
-        logger.info("💾 Writing to Silver layer (Parquet)...")
+        logger.info(" Writing to Silver layer (Parquet)...")
         
         # Write fact table with partitioning
         fact_df.repartition("date_key", "location_key") \
@@ -386,12 +386,12 @@ def main():
             dim_table.coalesce(1).write.mode("overwrite").format("parquet").save(
                 f"s3://cdc-nutrition-transformed-silver/{dim_name}/"
             )
-            logger.info(f"✓ Written {dim_name} to Silver")
+            logger.info(f" Written {dim_name} to Silver")
         
         # =====================================================================
         # STAGE 6: DATA LINEAGE & METRICS
         # =====================================================================
-        logger.info("📊 Computing metrics and lineage...")
+        logger.info(" Computing metrics and lineage...")
         
         # Compute aggregate statistics for monitoring
         metrics = clean_df.agg({
@@ -411,7 +411,7 @@ def main():
             "status": "SUCCESS"
         }
         
-        logger.info(f"📈 Pipeline metrics: {lineage_record}")
+        logger.info(f" Pipeline metrics: {lineage_record}")
         
         # Write lineage to metadata table (optional)
         spark.createDataFrame([lineage_record]) \
@@ -423,12 +423,12 @@ def main():
         # COMMIT JOB
         # =====================================================================
         job.commit()
-        logger.info("✅ Job completed successfully")
+        logger.info("Job completed successfully")
         
         return lineage_record
     
     except Exception as e:
-        logger.error(f"❌ Job failed: {str(e)}", exc_info=True)
+        logger.error(f" Job failed: {str(e)}", exc_info=True)
         raise
 
 
